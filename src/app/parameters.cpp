@@ -116,13 +116,12 @@ int main(int argc, char* const argv[], char** const envp)
     //cout << envs << endl;
     auto pos = envs.find_first_of('=');
     const auto name = envs.substr(0, pos);
-    cout << name << endl;
+    //cout << name << endl;
 
     //std::regex_constants::match_continuous
     //std::regex_constants::match_not_bol
     if (std::regex_search(name, search)) {
-    //if (std::sub_match()) {
-      cout << "     -> OK" << endl;
+      cout << name << endl;
     }
   }
 
