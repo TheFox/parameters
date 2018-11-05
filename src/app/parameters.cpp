@@ -9,10 +9,14 @@
 #ifdef __has_include
 #  if __has_include(<boost/program_options.hpp>)
 #    include <boost/program_options.hpp>
-#include <regex>
 namespace bpo = boost::program_options;
 #  else
-#    error "Missing <program_options>"
+#    error "Missing <boost/program_options.hpp>"
+#  endif
+#  if __has_include(<boost/algorithm/string.hpp>)
+#    include <boost/algorithm/string.hpp>
+#  else
+#    error "Missing <boost/algorithm/string.hpp>"
 #  endif
 #endif // __has_include
 
@@ -103,27 +107,24 @@ int main(int argc, char* const argv[], char** const envp)
   // Regexp
   // http://www.cplusplus.com/reference/regex/regex_replace/
   const std::regex search(searchRegexpStr);
-  //const std::regex search("SSH_", std::regex_constants::syntax_option_type::egrep);
-  //const std::regex search("SSH_", std::regex_constants::syntax_option_type::nosubs);
-  //const std::regex search("^SSH_");
-  //cout << std::regex_replace(content, search, "_OK") << endl;
 
   // https://stackoverflow.com/a/2085385/823644
   for (char** env = envp; *env != nullptr; ++env) {
     const string envs{*env};
-    //char* thisEnv = *env;
-    //printf("%s\n", thisEnv);
-    //cout << envs << endl;
     auto pos = envs.find_first_of('=');
     const auto name = envs.substr(0, pos);
-    //cout << name << endl;
+    const auto val = envs.substr(pos+1);
 
-    //std::regex_constants::match_continuous
-    //std::regex_constants::match_not_bol
     if (std::regex_search(name, search)) {
+      const string searchName{"@" + name + "@"};
+
       cout << name << endl;
+      boost::replace_all(content, searchName, val);
     }
   }
+
+  // Debug
+  cout << content << endl;
 
   return 0;
 }
