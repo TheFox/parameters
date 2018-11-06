@@ -21,7 +21,8 @@
 			"cfenv": "cpp",
 			"hashtable": "cpp",
 			"unordered_map": "cpp",
-			"utility": "cpp"
+			"utility": "cpp",
+			"ostream": "cpp"
 		}
 	}
 }

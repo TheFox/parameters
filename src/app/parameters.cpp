@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <unordered_map>
 #include <regex>
 #include <locale> // std::toupper
 
@@ -44,6 +45,7 @@ int main(int argc, char* const argv[], char** const envp)
                ("regexp,r", value<string>()->value_name("string"),
                  "Search regular expression for environment variable names. (required)")
                ("env,e", value<string>()->value_name("name"), "Name of the environment. For example: production")
+               ("app,a", value<string>()->value_name("app"), "Name of the App. For example: SHOPA, or SHOPB.")
                //("quiet,q", "Do not throw an error if there are variables missing being replaced.")
                ("help,h", "This message");
 
@@ -86,13 +88,15 @@ int main(int argc, char* const argv[], char** const envp)
   const auto inputFilePath = vm["input"].as<std::string>();
   const auto searchRegexpStr = vm["regexp"].as<std::string>();
   const auto envStr = vm["env"].as<std::string>();
+  const auto appStr = vm["app"].as<std::string>();
   //const auto isQuiet = vm["quiet"].as<bool>();
 
   // Debug
 #ifdef DEBUG
-  cout << "input file: " << inputFilePath << endl;
+  cout << "input file: '" << inputFilePath << "'" << endl;
   cout << "search: '" << searchRegexpStr << "'" << endl;
-  cout << "envStr: '" << envStr << "'" << endl;
+  cout << "env: '" << envStr << "'" << endl;
+  cout << "app: '" << appStr << "'" << endl;
 #endif
 
   // Open input file.
@@ -117,6 +121,9 @@ int main(int argc, char* const argv[], char** const envp)
   // http://www.cplusplus.com/reference/regex/regex_replace/
   const std::regex search(searchRegexpStr);
 
+  // Collect env vars.
+  std::unordered_map<std::string, std::string> envMap{};
+
   // https://stackoverflow.com/a/2085385/823644
   for (char** env = envp; *env != nullptr; ++env) {
     const string envs{*env};
@@ -131,6 +138,9 @@ int main(int argc, char* const argv[], char** const envp)
       boost::replace_all(content, searchName, val);
     }
   }
+
+  // for (auto& [name, val] : envMap)
+  //   cout <<
 
   // Debug
   cout << content << endl;
