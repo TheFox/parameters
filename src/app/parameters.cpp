@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <regex>
+#include <locale> // std::toupper
 
 #ifdef __has_include
 #  if __has_include(<boost/program_options.hpp>)
@@ -84,7 +85,15 @@ int main(int argc, char* const argv[], char** const envp)
 
   const auto inputFilePath = vm["input"].as<std::string>();
   const auto searchRegexpStr = vm["regexp"].as<std::string>();
+  const auto envStr = vm["env"].as<std::string>();
   //const auto isQuiet = vm["quiet"].as<bool>();
+
+  // Debug
+#ifdef DEBUG
+  cout << "input file: " << inputFilePath << endl;
+  cout << "search: '" << searchRegexpStr << "'" << endl;
+  cout << "envStr: '" << envStr << "'" << endl;
+#endif
 
   // Open input file.
   std::ifstream ifile(inputFilePath, std::ios::binary | std::ios::ate);
