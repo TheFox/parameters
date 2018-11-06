@@ -5,6 +5,10 @@
 - cmake
 - Boost
 
+### Optional
+
+- [termcolor](https://github.com/ikalnytskyi/termcolor)
+
 ### Install dependencies on macOS
 
 ```

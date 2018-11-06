@@ -4,7 +4,7 @@ project(Parameters)
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 1)
 set(PROJECT_VERSION_PATCH 0)
-set(PROJECT_VERSION_APPENDIX "-dev.1")
+set(PROJECT_VERSION_APPENDIX "-dev.2")
 set(PROJECT_COPYRIGHT "Copyright (C) 2018 Christian Mayer <https://fox21.at>")
 
 set(CMAKE_CXX_FLAGS "-Wall -Wshadow")
@@ -19,13 +19,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 configure_file("${PROJECT_SOURCE_DIR}/src/config.hpp.in" "${PROJECT_SOURCE_DIR}/src/config.hpp" NEWLINE_STYLE LF)
 
 add_executable(parameters
-    src/app/parameters.cpp)
+    src/app/parameters.cpp
+    src/class/env_var.cpp src/class/env_var.hpp)
 target_include_directories(parameters PRIVATE ${PROJECT_SOURCE_DIR}/src)
 target_compile_features(parameters PRIVATE cxx_noexcept)
 get_target_property(parameters_std parameters CXX_STANDARD)
 
 # Install
 install(TARGETS parameters RUNTIME DESTINATION /usr/local/bin)
+
+# Term Color
+find_package(termcolor QUIET)
 
 # Boost
 set(Boost_USE_STATIC_LIBS ON)
