@@ -6,6 +6,4 @@
 /.vagrant/
 /.vscode/
 /tmp/
-.env
-.env.in
-.env.dist
+.env*
