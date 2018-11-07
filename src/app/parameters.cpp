@@ -32,6 +32,7 @@ int main(int argc, char* const argv[], char** const envp)
 {
   using std::string;
   using std::cout;
+  using std::cin;
   using std::cerr;
   using std::endl;
   using bpo::options_description;
@@ -77,8 +78,18 @@ int main(int argc, char* const argv[], char** const envp)
     return 2;
   }
 
+  const auto hasStdIn = !static_cast<bool>(isatty(fileno(stdin)));
+
+  // Debug
+#ifdef DEBUG
+  cerr << "stdin: " << (hasStdIn ? "YES" : "NO") << endl;
+  cerr << "help: " << (vm.count("help")) << endl;
+  cerr << "input: " << (vm.count("input") == 0) << endl;
+  cerr << "regex: " << (vm.count("regex") == 0) << endl;
+#endif
+
   // Help
-  if (vm.count("help") || vm.count("input") == 0 || vm.count("regexp") == 0) {
+  if (vm.count("help") || (vm.count("input") == 0 && !hasStdIn) || vm.count("regexp") == 0) {
     cerr << PROJECT_NAME << ' '
          << PROJECT_VERSION_MAJOR << '.' << PROJECT_VERSION_MINOR << '.' << PROJECT_VERSION_PATCH
          << PROJECT_VERSION_APPENDIX << endl;
@@ -90,7 +101,12 @@ int main(int argc, char* const argv[], char** const envp)
     return 3;
   }
 
-  const auto inputFilePath = vm["input"].as<std::string>();
+  // Debug
+#ifdef DEBUG
+  cerr << "get vm params" << endl;
+#endif
+
+  const auto inputFilePath = vm.count("input") == 0 ? string{} : vm["input"].as<std::string>();
   const auto searchRegexpStr = vm["regexp"].as<std::string>();
   const auto envStr = vm.count("env") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["env"].as<std::string>());
   const auto appStr = vm.count("app") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["app"].as<std::string>());
@@ -99,6 +115,7 @@ int main(int argc, char* const argv[], char** const envp)
 
   // Debug
 #ifdef DEBUG
+  cerr << "stdin: " << (hasStdIn ? "YES" : "NO") << endl;
   cerr << "input file: '" << inputFilePath << "'" << endl;
   cerr << "search: '" << searchRegexpStr << "'" << endl;
   cerr << "env: '" << envStr << "'" << endl;
@@ -107,20 +124,70 @@ int main(int argc, char* const argv[], char** const envp)
   cerr << "no_color: '" << isNoColor << "'" << endl;
 #endif
 
-  // Open input file.
-  std::ifstream ifile(inputFilePath, std::ios::binary | std::ios::ate);
-  auto fsize = ifile.tellg();
-  ifile.seekg(0, std::ios::beg);
+  // Content
+  string content{};
 
-  // Read input file.
-  std::vector<char> buffer(fsize);
-  if (!ifile.read(buffer.data(), fsize)) {
-    throw string{"Could not read input file."};
+  if (hasStdIn) {
+    std::string line;
+    while (std::getline(std::cin, line)) {
+      content += line+'\n';
+    }
+  } else {
+    // Open input file.
+    std::ifstream ifile(inputFilePath, std::ios::binary | std::ios::ate);
+    if (ifile.bad()) {
+      string errMsg{"Could not open file: " + inputFilePath};
+#ifdef TERMCOLOR_HPP_
+      if (isNoColor) {
+        cerr << "ERROR: " << errMsg << endl;
+      } else {
+        cerr << termcolor::on_red << termcolor::white << "ERROR: "
+             << errMsg << termcolor::reset << endl;
+      }
+#else
+      cerr << "ERROR: " << errMsg << endl;
+#endif
+      return 1;
+    }
+    auto fsize = ifile.tellg();
+    if (fsize == -1) {
+      string errMsg{"Could not open file: " + inputFilePath};
+#ifdef TERMCOLOR_HPP_
+      if (isNoColor) {
+        cerr << "ERROR: " << errMsg << endl;
+      } else {
+        cerr << termcolor::on_red << termcolor::white << "ERROR: "
+             << errMsg << termcolor::reset << endl;
+      }
+#else
+      cerr << "ERROR: " << errMsg << endl;
+#endif
+      return 1;
+    }
+    ifile.seekg(0, std::ios::beg);
+
+    // Input Buffer
+    std::vector<char> buffer(fsize);
+
+    // Read input file.
+    if (!ifile.read(buffer.data(), fsize)) {
+      string errMsg{"Could not read input file."};
+#ifdef TERMCOLOR_HPP_
+      if (isNoColor) {
+        cerr << "ERROR: " << errMsg << endl;
+      } else {
+        cerr << termcolor::on_red << termcolor::white << "ERROR: "
+             << errMsg << termcolor::reset << endl;
+      }
+#else
+      cerr << "ERROR: " << errMsg << endl;
+#endif
+    }
+    ifile.close();
+
+    // Create string from buffer.
+    content.assign(buffer.begin(), buffer.end());
   }
-  ifile.close();
-
-  // Create string from buffer.
-  string content(buffer.begin(), buffer.end());
 
   // Regexp
   const std::regex search(searchRegexpStr);

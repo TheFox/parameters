@@ -8,9 +8,6 @@ namespace Parameters
 {
   struct EnvVar
   {
-    // Constructor
-    //EnvVar(std::string name, std::string val) noexcept;
-
     // Variables
     std::string name{};
     std::string val{};
