@@ -53,7 +53,9 @@ int main(int argc, char* const argv[], char** const envp)
                ("app,a", value<string>()->value_name("app"), "Name of the App. For example: SHOPA, or SHOPB.")
                ("quiet,q", bpo::bool_switch()->default_value(false),
                  "Do not throw an error if there are variables missing being replaced.")
+#ifdef TERMCOLOR_HPP_
                ("no-color", bpo::bool_switch()->default_value(false), "Disable colors.")
+#endif
                ("help,h", "This message");
 
   options_description opts;
@@ -111,7 +113,9 @@ int main(int argc, char* const argv[], char** const envp)
   const auto envStr = vm.count("env") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["env"].as<std::string>());
   const auto appStr = vm.count("app") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["app"].as<std::string>());
   const auto isQuiet = vm.count("quiet") == 0 ? false : vm["quiet"].as<bool>();
+#ifdef TERMCOLOR_HPP_
   const auto isNoColor = vm.count("no-color") == 0 ? false : vm["no-color"].as<bool>();
+#endif
 
   // Debug
 #ifdef DEBUG
@@ -121,7 +125,9 @@ int main(int argc, char* const argv[], char** const envp)
   cerr << "env: '" << envStr << "'" << endl;
   cerr << "app: '" << appStr << "'" << endl;
   cerr << "quiet: '" << isQuiet << "'" << endl;
+#ifdef TERMCOLOR_HPP_
   cerr << "no_color: '" << isNoColor << "'" << endl;
+#endif
 #endif
 
   // Content
