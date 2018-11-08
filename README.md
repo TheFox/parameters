@@ -11,8 +11,14 @@
 
 ### Install dependencies on macOS
 
-```
+```bash
 brew install boost
+```
+
+### Install dependencies on Debian 9
+
+```bash
+sudo apt-get install --no-install-recommends libboost-filesystem-dev libboost-program-options-dev
 ```
 
 ## Build

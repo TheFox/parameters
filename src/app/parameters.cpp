@@ -224,7 +224,8 @@ int main(int argc, char* const argv[], char** const envp)
     }
   }
 
-  for (auto[name, env] : envMap) {
+  for (const auto& tmpEnv : envMap) {
+    auto env = tmpEnv.second;
     auto val = env.val;
 #ifdef DEBUG
     cerr << "val='" << env.name << "' val='" << val << "' (" << env.ignore << ")" << endl;

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12.0)
+cmake_minimum_required(VERSION 3.7.0)
 project(Parameters)
 
 set(PROJECT_VERSION_MAJOR 0)
@@ -12,8 +12,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -DDEBUG -Wno-unused-variable -fsanitize=addres
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -Wunused-variable")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
-# Set minimum C++ to 2017 standards
-set(CMAKE_CXX_STANDARD 17)
+# Set minimum C++ to 2014 standards.
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 configure_file("${PROJECT_SOURCE_DIR}/src/config.hpp.in" "${PROJECT_SOURCE_DIR}/src/config.hpp" NEWLINE_STYLE LF)
@@ -35,7 +35,7 @@ find_package(termcolor QUIET)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME ON)
 set(Boost_USE_MULTITHREADED OFF)
-find_package(Boost 1.67.0 COMPONENTS filesystem program_options)
+find_package(Boost 1.62.0 COMPONENTS filesystem program_options)
 if (Boost_FOUND)
     message(STATUS "Found Boost")
     message(STATUS "Boost INCL ${Boost_INCLUDE_DIRS}")
