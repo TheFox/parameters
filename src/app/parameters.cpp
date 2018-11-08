@@ -47,6 +47,7 @@ int main(int argc, char* const argv[], char** const envp)
   options_description genericOpts("Options");
   genericOpts.add_options()
                ("input,i", value<string>()->value_name("path"), "Input path to template file. (required)")
+               ("output,o", value<string>()->value_name("path"), "Path to output file. Defaut: STDOUT")
                ("regexp,r", value<string>()->value_name("string"),
                  "Search regular expression for environment variable names. (required)")
                ("env,e", value<string>()->value_name("name"), "Name of the environment. For example: production")
@@ -80,7 +81,11 @@ int main(int argc, char* const argv[], char** const envp)
     return 2;
   }
 
+#ifdef DEBUG
+  constexpr bool hasStdIn = false;
+#else
   const auto hasStdIn = !static_cast<bool>(isatty(fileno(stdin)));
+#endif
 
   // Debug
 #ifdef DEBUG
@@ -109,6 +114,7 @@ int main(int argc, char* const argv[], char** const envp)
 #endif
 
   const auto inputFilePath = vm.count("input") == 0 ? string{} : vm["input"].as<std::string>();
+  const auto outputFilePath = vm.count("output") == 0 ? string{} : vm["output"].as<std::string>();
   const auto searchRegexpStr = vm["regexp"].as<std::string>();
   const auto envStr = vm.count("env") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["env"].as<std::string>());
   const auto appStr = vm.count("app") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["app"].as<std::string>());
@@ -121,6 +127,7 @@ int main(int argc, char* const argv[], char** const envp)
 #ifdef DEBUG
   cerr << "stdin: " << (hasStdIn ? "YES" : "NO") << endl;
   cerr << "input file: '" << inputFilePath << "'" << endl;
+  cerr << "output file: '" << outputFilePath << "'" << endl;
   cerr << "search: '" << searchRegexpStr << "'" << endl;
   cerr << "env: '" << envStr << "'" << endl;
   cerr << "app: '" << appStr << "'" << endl;
@@ -136,7 +143,7 @@ int main(int argc, char* const argv[], char** const envp)
   if (hasStdIn) {
     std::string line;
     while (std::getline(std::cin, line)) {
-      content += line+'\n';
+      content += line + '\n';
     }
   } else {
     // Open input file.
@@ -295,7 +302,14 @@ int main(int argc, char* const argv[], char** const envp)
     boost::replace_all(content, searchName, val);
   }
 
-  cout << content;
+  if (outputFilePath.empty()) {
+    cout << content;
+  } else {
+    // Save Month file.
+    std::ofstream fout(outputFilePath);
+    fout << content;
+    fout.close();
+  }
 
   // Remove 'begin of line' character.
   auto searchEndRegexpStr = searchRegexpStr;
