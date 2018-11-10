@@ -5,7 +5,7 @@
 - cmake
 - Boost
 
-### Optional
+Optional:
 
 - [termcolor](https://github.com/ikalnytskyi/termcolor)
 
@@ -21,9 +21,9 @@ brew install boost
 sudo apt-get install --no-install-recommends libboost-filesystem-dev libboost-program-options-dev
 ```
 
-## Build
+## Build from Source
 
-This will only build the binary.
+This will build the binary.
 
 ```bash
 ./bin/build.sh
@@ -31,10 +31,12 @@ This will only build the binary.
 
 Then the binary is available in `build_release`.
 
-## Install
-
 After building the project, run:
 
 ```bash
 ./bin/install.sh
 ```
+
+## Install via Debian repository
+
+Only Debian 9 is supported.

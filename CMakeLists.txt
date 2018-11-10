@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.7.0)
 project(Parameters)
 
 set(PROJECT_VERSION_MAJOR 0)
-set(PROJECT_VERSION_MINOR 2)
+set(PROJECT_VERSION_MINOR 3)
 set(PROJECT_VERSION_PATCH 0)
-set(PROJECT_VERSION_APPENDIX "")
+set(PROJECT_VERSION_APPENDIX "-dev.1")
 set(PROJECT_COPYRIGHT "Copyright (C) 2018 Christian Mayer <https://fox21.at>")
 
 set(CMAKE_CXX_FLAGS "-Wall -Wshadow")
