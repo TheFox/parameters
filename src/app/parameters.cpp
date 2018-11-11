@@ -99,7 +99,8 @@ int main(int argc, char* const argv[], char** const envp)
   if (vm.count("help") || (vm.count("input") == 0 && !hasStdIn) || vm.count("regexp") == 0) {
     cerr << PROJECT_NAME << ' '
          << PROJECT_VERSION_MAJOR << '.' << PROJECT_VERSION_MINOR << '.' << PROJECT_VERSION_PATCH
-         << PROJECT_VERSION_APPENDIX << endl;
+         << PROJECT_VERSION_APPENDIX /*<< " (" << __DATE__ << ' ' << __TIME__ << ')'*/ << endl;
+    cerr << "Build: " << __DATE__ << ' ' << __TIME__ << endl;
     cerr << PROJECT_COPYRIGHT << endl << endl;
 
     cerr << "Usage: " << argv[0] << " [options]" << endl << endl;

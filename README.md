@@ -1,5 +1,45 @@
 # Parameters
 
+Automatic replace variables in configuration files templates from environment variables.
+
+The parameters program takes an input file template and a given regular expression for searching environment variables. The variables in the template file will be replaced by the values of found environment variables by the exact same name.
+
+## Examples
+
+### Simple example
+
+First set the environment variables. This can also come from GitLab CI variables:
+
+```bash
+export SYMF_DB_USER=my_user
+export SYMF_DB_PASS=my_super_secret_password
+```
+
+Then set up a dotenv template file (`.env.dist`):
+
+```bash
+DB_USER=@SYMF_DB_USER@
+DB_PASS=@SYMF_DB_PASS@
+```
+
+Now parameters will replace the variables:
+
+```bash
+parameters -i .env.dist -r ^SYMF_ > .env
+```
+
+This will take `.env.dist` as input file and `^SYMF_` as regular expression to search for variables in your shell environment. Searching the environment variables by a given regular expression is the same as running `env | grep ^SYMF_` in your shell.
+
+### Example using different envrionments
+
+You can also use different environments like Testing, Staging, Production, etc.
+
+// TODO
+
+### Example using different instances
+
+// TODO
+
 ## Dependencies
 
 - cmake
