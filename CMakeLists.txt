@@ -49,6 +49,7 @@ endif ()
 
 target_link_libraries(parameters ${Boost_LIBRARIES})
 
+message(STATUS "CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE}")
 message(STATUS "CMAKE_CXX_COMPILER ${CMAKE_CXX_COMPILER}")
 message(STATUS "CXX_STANDARD ${parameters_std}")
 message(STATUS "CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}")

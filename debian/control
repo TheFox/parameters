@@ -1,5 +1,5 @@
 Source: parameters
-Section: devel
+Section: main
 Priority: optional
 Maintainer: Christian Mayer <christian@fox21.at>
 Build-Depends: debhelper (>= 9)

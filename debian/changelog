@@ -1,4 +1,10 @@
-parameters (0.2.1) UNRELEASED; urgency=medium
+parameters (0.2.2) unstable; urgency=medium
+
+  * Debian Repo test
+
+ -- Christian Mayer <christian@fox21.at>  Sun, 11 Nov 2018 16:24:24 +0100
+
+parameters (0.2.1) unstable; urgency=medium
 
   * Added binary file.
 
