@@ -1,6 +1,6 @@
 # Parameters
 
-Automatic replace variables in configuration files templates from environment variables.
+Automatic replace variables in configuration file templates from environment variables.
 
 The parameters program takes an input file template and a given regular expression for searching environment variables. The variables in the template file will be replaced by the values of found environment variables by the exact same name.
 
