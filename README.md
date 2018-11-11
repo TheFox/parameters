@@ -86,7 +86,7 @@ After building the project, run:
 
 ## Install via Debian repository
 
-Only Debian 9 is supported.
+Only Debian 9 (stretch) is supported.
 
 Add the public GPG key to the apt sources keyring:
 
