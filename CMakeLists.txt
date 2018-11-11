@@ -16,7 +16,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-configure_file("${PROJECT_SOURCE_DIR}/src/config.hpp.in" "${PROJECT_SOURCE_DIR}/src/config.hpp" NEWLINE_STYLE LF)
+configure_file(
+    "${PROJECT_SOURCE_DIR}/src/config.hpp.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/src/config.hpp"
+    NEWLINE_STYLE LF)
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/src")
 
 add_executable(parameters
     src/app/parameters.cpp
@@ -48,4 +52,5 @@ target_link_libraries(parameters ${Boost_LIBRARIES})
 message(STATUS "CMAKE_CXX_COMPILER ${CMAKE_CXX_COMPILER}")
 message(STATUS "CXX_STANDARD ${parameters_std}")
 message(STATUS "CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "CMAKE_CURRENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")

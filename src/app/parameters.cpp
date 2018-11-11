@@ -25,7 +25,7 @@ namespace bpo = boost::program_options;
 #  endif
 #endif // __has_include
 
-#include "../config.hpp"
+#include "config.hpp"
 #include "../class/env_var.hpp"
 
 int main(int argc, char* const argv[], char** const envp)
