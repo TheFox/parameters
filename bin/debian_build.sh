@@ -10,4 +10,5 @@ if [[ ! -d debian/ ]]; then
     dh_make --native --single --packagename parameters_1.0.0
 fi
 
-dpkg-buildpackage
+dpkg-buildpackage -b -j 2
+dpkg-buildpackage -rfakeroot -Tclean
