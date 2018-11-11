@@ -16,6 +16,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Set default install path for Debian.
+set(CMAKE_INSTALL_PREFIX /usr)
+
 configure_file("${PROJECT_SOURCE_DIR}/src/config.hpp.in" "${PROJECT_SOURCE_DIR}/src/config.hpp" NEWLINE_STYLE LF)
 
 add_executable(parameters
@@ -26,7 +29,7 @@ target_compile_features(parameters PRIVATE cxx_noexcept)
 get_target_property(parameters_std parameters CXX_STANDARD)
 
 # Install
-install(TARGETS parameters RUNTIME DESTINATION /usr/local/bin)
+#install(TARGETS parameters)
 
 # Term Color
 find_package(termcolor QUIET)
