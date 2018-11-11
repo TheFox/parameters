@@ -1,0 +1,16 @@
+Source: parameters
+Section: devel
+Priority: optional
+Maintainer: Christian Mayer <christian@fox21.at>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: https://fox21.at
+#Vcs-Git: https://anonscm.debian.org/collab-maint/parameters.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/parameters.git
+
+Package: parameters
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: My fucking short package description. //TODO
+ My fucking very very long package description. // Also TODO
+

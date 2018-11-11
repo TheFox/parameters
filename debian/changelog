@@ -1,0 +1,11 @@
+parameters (0.2.1) UNRELEASED; urgency=medium
+
+  * Added binary file.
+
+ -- Christian Mayer <christian@fox21.at>  Sat, 10 Nov 2018 21:50:33 +0100
+
+parameters (0.2.0) unstable; urgency=medium
+
+  * Initial Release.
+
+ -- Christian Mayer <christian@fox21.at>  Sat, 10 Nov 2018 20:52:46 +0100
