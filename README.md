@@ -30,6 +30,13 @@ parameters -i .env.dist -r ^SYMF_ > .env
 
 This will take `.env.dist` as input file and `^SYMF_` as regular expression to search for variables in your shell environment. Searching the environment variables by a given regular expression is the same as running `env | grep ^SYMF_` in your shell.
 
+The result in `.env` file:
+
+```bash
+DB_USER=my_user
+DB_PASS=my_super_secret_password
+```
+
 ### Example using different envrionments
 
 You can also use different environments like Testing, Staging, Production, etc.
