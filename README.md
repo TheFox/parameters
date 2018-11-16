@@ -111,3 +111,8 @@ Now you can run the program:
 ```bash
 parameters --help
 ```
+
+## Tested under
+
+- macOS 10.13 High Sierra
+- Debian 9 (stretch)
