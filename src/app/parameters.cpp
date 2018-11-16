@@ -50,8 +50,8 @@ int main(int argc, char* const argv[], char** const envp)
                ("output,o", value<string>()->value_name("path"), "Path to output file. Defaut: STDOUT")
                ("regexp,r", value<string>()->value_name("string"),
                  "Search regular expression for environment variable names. (required)")
-               ("env,e", value<string>()->value_name("name"), "Name of the environment. For example: production")
-               ("app,a", value<string>()->value_name("app"), "Name of the App. For example: SHOPA, or SHOPB.")
+               ("env,e", value<string>()->value_name("string"), "Name of the environment. For example: production")
+               ("instance,n", value<string>()->value_name("string"), "Name of the Instance. For example: SHOPA, or SHOPB.")
                ("quiet,q", bpo::bool_switch()->default_value(false),
                  "Do not throw an error if there are variables missing being replaced.")
 #ifdef TERMCOLOR_HPP_
@@ -118,7 +118,7 @@ int main(int argc, char* const argv[], char** const envp)
   const auto outputFilePath = vm.count("output") == 0 ? string{} : vm["output"].as<std::string>();
   const auto searchRegexpStr = vm["regexp"].as<std::string>();
   const auto envStr = vm.count("env") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["env"].as<std::string>());
-  const auto appStr = vm.count("app") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["app"].as<std::string>());
+  const auto instanceStr = vm.count("instance") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["instance"].as<std::string>());
   const auto isQuiet = vm.count("quiet") == 0 ? false : vm["quiet"].as<bool>();
 #ifdef TERMCOLOR_HPP_
   const auto isNoColor = vm.count("no-color") == 0 ? false : vm["no-color"].as<bool>();
@@ -131,7 +131,7 @@ int main(int argc, char* const argv[], char** const envp)
   cerr << "output file: '" << outputFilePath << "'" << endl;
   cerr << "search: '" << searchRegexpStr << "'" << endl;
   cerr << "env: '" << envStr << "'" << endl;
-  cerr << "app: '" << appStr << "'" << endl;
+  cerr << "instance: '" << instanceStr << "'" << endl;
   cerr << "quiet: '" << isQuiet << "'" << endl;
 #ifdef TERMCOLOR_HPP_
   cerr << "no_color: '" << isNoColor << "'" << endl;
@@ -236,16 +236,16 @@ int main(int argc, char* const argv[], char** const envp)
       continue;
     }
 
-    // App
-    if (!appStr.empty()) {
-      const auto pos = env.name.length() - appStr.length();
-      const auto appSubstr = env.name.substr(pos);
+    // Instance
+    if (!instanceStr.empty()) {
+      const auto pos = env.name.length() - instanceStr.length();
+      const auto instanceSubstr = env.name.substr(pos);
 
 #ifdef DEBUG
-      cerr << " -> test app: '" << appSubstr << "' (" << pos << ")" << endl;
+      cerr << " -> test instance: '" << instanceSubstr << "' (" << pos << ")" << endl;
 #endif
 
-      if (appSubstr == appStr) {
+      if (instanceSubstr == instanceStr) {
         env.name = env.name.substr(0, pos - 1);
 #ifdef DEBUG
         cerr << "   -> OK" << endl;
@@ -270,14 +270,14 @@ int main(int argc, char* const argv[], char** const envp)
     }
 
     const auto envKey{env.name + '_' + envStr};
-    const auto appKey{envKey + '_' + appStr};
+    const auto instanceKey{envKey + '_' + instanceStr};
 
-    if (envMap.count(appKey)) {
+    if (envMap.count(instanceKey)) {
 #ifdef DEBUG
-      cerr << " -> has app key" << endl;
+      cerr << " -> has instance key" << endl;
 #endif
-      envMap[appKey].ignore = true;
-      val = envMap[appKey].val;
+      envMap[instanceKey].ignore = true;
+      val = envMap[instanceKey].val;
     } else if (envMap.count(envKey)) {
 #ifdef DEBUG
       cerr << " -> has env key" << endl;
@@ -286,8 +286,8 @@ int main(int argc, char* const argv[], char** const envp)
       val = envMap[envKey].val;
     }
 
-    if (envMap.count(appKey)) {
-      envMap[appKey].ignore = true;
+    if (envMap.count(instanceKey)) {
+      envMap[instanceKey].ignore = true;
     }
     if (envMap.count(envKey)) {
       envMap[envKey].ignore = true;
@@ -297,7 +297,7 @@ int main(int argc, char* const argv[], char** const envp)
     }
 
 #ifdef DEBUG
-    cerr << " -> '" << env.name << "' '" << envKey << "' '" << appKey << "' => '" << val << "'" << endl;
+    cerr << " -> '" << env.name << "' '" << envKey << "' '" << instanceKey << "' => '" << val << "'" << endl;
 #endif
 
     const string searchName{"@" + env.name + "@"};
