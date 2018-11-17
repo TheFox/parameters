@@ -128,6 +128,20 @@ Now you can run the program:
 parameters --help
 ```
 
+## Install via Homebrew
+
+1. Add the [`thefox/brewery`](https://github.com/TheFox/homebrew-brewery) tap to brew.
+	
+	```
+	brew tap thefox/brewery
+	```
+
+2. Actual installation
+	
+	```
+	brew install parameters
+	```
+
 ## Tested under
 
 - macOS 10.13 High Sierra
