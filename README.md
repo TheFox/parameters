@@ -131,4 +131,6 @@ parameters --help
 ## Tested under
 
 - macOS 10.13 High Sierra
+- macOS 10.14 Mojave
+- Debian 8 (jessie)
 - Debian 9 (stretch)
