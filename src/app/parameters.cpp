@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <vector>
 #include <regex>
@@ -31,6 +32,7 @@ namespace bpo = boost::program_options;
 int main(int argc, char* const argv[], char** const envp)
 {
   using std::string;
+  using std::stringstream;
   using std::cout;
   using std::cin;
   using std::cerr;
@@ -51,7 +53,9 @@ int main(int argc, char* const argv[], char** const envp)
                ("regexp,r", value<string>()->value_name("string"),
                  "Search regular expression for environment variable names. (required)")
                ("env,e", value<string>()->value_name("string"), "Name of the environment. For example: production")
-               ("instance,n", value<string>()->value_name("string"), "Name of the Instance. For example: SHOPA, or SHOPB.")
+               ("instance,n", value<string>()->value_name("string"),
+                 "Name of the Instance. For example: SHOPA, or SHOPB.")
+               ("char,c", value<u_char>()->value_name("char"), "Search char for template variables. Default: @")
                ("quiet,q", bpo::bool_switch()->default_value(false),
                  "Do not throw an error if there are variables missing being replaced.")
 #ifdef TERMCOLOR_HPP_
@@ -118,7 +122,9 @@ int main(int argc, char* const argv[], char** const envp)
   const auto outputFilePath = vm.count("output") == 0 ? string{} : vm["output"].as<std::string>();
   const auto searchRegexpStr = vm["regexp"].as<std::string>();
   const auto envStr = vm.count("env") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["env"].as<std::string>());
-  const auto instanceStr = vm.count("instance") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["instance"].as<std::string>());
+  const auto instanceStr =
+    vm.count("instance") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["instance"].as<std::string>());
+  const u_char searchChar = vm.count("char") == 0 ? '@' : vm["char"].as<u_char>();
   const auto isQuiet = vm.count("quiet") == 0 ? false : vm["quiet"].as<bool>();
 #ifdef TERMCOLOR_HPP_
   const auto isNoColor = vm.count("no-color") == 0 ? false : vm["no-color"].as<bool>();
@@ -132,6 +138,7 @@ int main(int argc, char* const argv[], char** const envp)
   cerr << "search: '" << searchRegexpStr << "'" << endl;
   cerr << "env: '" << envStr << "'" << endl;
   cerr << "instance: '" << instanceStr << "'" << endl;
+  cerr << "search char: '" << static_cast<u_char>(searchChar) << "'" << endl;
   cerr << "quiet: '" << isQuiet << "'" << endl;
 #ifdef TERMCOLOR_HPP_
   cerr << "no_color: '" << isNoColor << "'" << endl;
@@ -300,7 +307,9 @@ int main(int argc, char* const argv[], char** const envp)
     cerr << " -> '" << env.name << "' '" << envKey << "' '" << instanceKey << "' => '" << val << "'" << endl;
 #endif
 
-    const string searchName{"@" + env.name + "@"};
+    stringstream searchNameStream;
+    searchNameStream << searchChar << env.name << searchChar;
+    const auto searchName = searchNameStream.str();
     boost::replace_all(content, searchName, val);
   }
 
@@ -319,7 +328,9 @@ int main(int argc, char* const argv[], char** const envp)
     searchEndRegexpStr.end());
 
   // Regexp
-  const std::regex endSearch('@' + searchEndRegexpStr);
+  stringstream endSearchStream;
+  endSearchStream << searchChar << searchEndRegexpStr;
+  const std::regex endSearch(endSearchStream.str());
 
   if (!isQuiet && std::regex_search(content, endSearch)) {
 #ifdef TERMCOLOR_HPP_
