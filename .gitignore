@@ -11,3 +11,4 @@
 .env.x
 .env.y
 .env.dist.x
+Vagrantfile
