@@ -92,7 +92,7 @@ This will build the binary.
 ./bin/build.sh
 ```
 
-Then the binary is available in `build_release`.
+Then the binary is available in `build_release/bin`.
 
 After building the project, run:
 
