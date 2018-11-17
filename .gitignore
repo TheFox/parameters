@@ -6,6 +6,8 @@
 /.vagrant/
 /.vscode/
 /tmp/
-.env*
 /obj-x86_64-linux-gnu/
-
+.env
+.env.x
+.env.y
+.env.dist.x

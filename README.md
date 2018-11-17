@@ -25,7 +25,7 @@ DB_PASS=@SYMF_DB_PASS@
 Now parameters will replace the variables:
 
 ```bash
-parameters -i .env.dist -r ^SYMF_ > .env
+parameters --input .env.dist --regexp ^SYMF_ > .env
 ```
 
 This will take `.env.dist` as input file and `^SYMF_` as regular expression to search for variables in your shell environment. Searching the environment variables by a given regular expression is the same as running `env | grep ^SYMF_` in your shell.
@@ -41,11 +41,27 @@ DB_PASS=my_super_secret_password
 
 You can also use different environments like Testing, Staging, Production, etc.
 
-// TODO
+```bash
+parameters --input .env.dist --regexp ^SYMF_ --env testing > .env
+```
+
+`testing` will be converted to `TESTING`.
 
 ### Example using different instances
 
-// TODO
+```bash
+parameters --input .env.dist --regexp ^SYMF_ --instance shopa > .env
+```
+
+`shopa` will be converted to `SHOPA`.
+
+Also a combination is possible.
+
+```bash
+parameters --input .env.dist --regexp ^SYMF_ --env testing --instance shopa > .env
+```
+
+Run `parameters --help` to see more parameters.
 
 ## Dependencies
 
