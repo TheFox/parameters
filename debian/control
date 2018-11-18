@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Christian Mayer <christian@fox21.at>
 Build-Depends: debhelper (>= 9)
 Standards-Version: 3.9.8
-Homepage: https://fox21.at
+Homepage: https://github.com/TheFox/parameters
 #Vcs-Git: https://anonscm.debian.org/collab-maint/parameters.git
 #Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/parameters.git
 
