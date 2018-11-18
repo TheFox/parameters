@@ -101,9 +101,7 @@ int main(int argc, char* const argv[], char** const envp)
 
   // Help
   if (vm.count("help") || (vm.count("input") == 0 && !hasStdIn) || vm.count("regexp") == 0) {
-    cerr << PROJECT_NAME << ' '
-         << PROJECT_VERSION_MAJOR << '.' << PROJECT_VERSION_MINOR << '.' << PROJECT_VERSION_PATCH
-         << PROJECT_VERSION_APPENDIX /*<< " (" << __DATE__ << ' ' << __TIME__ << ')'*/ << endl;
+    cerr << PROJECT_NAME << ' ' << PROJECT_VERSION << endl;
     cerr << "Build: " << __DATE__ << ' ' << __TIME__ << endl;
     cerr << PROJECT_COPYRIGHT << endl << endl;
 
