@@ -116,6 +116,13 @@ Verify key on the keyring. This should print out informations about the key:
 apt-key list 2814B4288C4594FF0BA75571F96ED997C9382D47
 ```
 
+Add apt source file and update:
+
+```
+echo 'deb https://debian.fox21.at/ stretch main' > /etc/apt/sources.list.d/fox21at.list
+apt-get update
+```
+
 Install the package:
 
 ```bash
