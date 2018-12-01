@@ -135,6 +135,13 @@ Now you can run the program:
 parameters --help
 ```
 
+## Install under Debian via .deb file
+
+```bash
+wget -O parameters.deb https://github.com/TheFox/parameters/releases/download/v1.0.0-rc.2/parameters_1.0.0-rc.2_amd64.deb
+sudo dpkg --install parameters.deb
+```
+
 ## Install via Homebrew
 
 1. Add the [`thefox/brewery`](https://github.com/TheFox/homebrew-brewery) tap to brew.
