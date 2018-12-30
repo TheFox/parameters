@@ -118,7 +118,7 @@ apt-key list 2814B4288C4594FF0BA75571F96ED997C9382D47
 
 Add apt source file and update:
 
-```
+```bash
 echo 'deb https://debian.fox21.at/ stretch main' > /etc/apt/sources.list.d/fox21at.list
 apt-get update
 ```
@@ -163,3 +163,11 @@ sudo dpkg --install parameters.deb
 - macOS 10.14 Mojave
 - Debian 8 (jessie)
 - Debian 9 (stretch)
+
+## License
+
+Copyright (C) 2018 Christian Mayer <https://fox21.at>
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
