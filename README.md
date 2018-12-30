@@ -86,7 +86,9 @@ sudo apt-get install --no-install-recommends libboost-filesystem-dev libboost-pr
 
 ## Build from Source
 
-This will build the binary.
+You need a modern C++ compiler that supports C++14 and CMake 3.7 or later.
+
+This will build the binary:
 
 ```bash
 ./bin/build.sh
@@ -146,13 +148,13 @@ sudo dpkg --install parameters.deb
 ## Install via Homebrew
 
 1. Add the [`thefox/brewery`](https://github.com/TheFox/homebrew-brewery) tap to brew.
-	
+
 	```
 	brew tap thefox/brewery
 	```
 
 2. Actual installation
-	
+
 	```
 	brew install parameters
 	```
