@@ -1,3 +1,9 @@
+parameters (1.0.0-rc.3) stretch; urgency=medium
+
+  * Version 1, RC3: Build stuff.
+
+ -- Christian Mayer <christian@fox21.at>  Sat, 12 Jan 2019 19:21:14 +0100
+
 parameters (1.0.0-rc.2) stretch; urgency=medium
 
   * Version 1, RC2

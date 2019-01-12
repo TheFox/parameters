@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8.0)
 
 project(Parameters VERSION 1.0.0 LANGUAGES CXX)
 
-set(PROJECT_VERSION_APPENDIX "-rc.3.dev")
+set(PROJECT_VERSION_APPENDIX "-rc.3")
 set(PROJECT_VERSION_TAG "N/A" CACHE STRING "Git tag string.")
 set(PROJECT_VERSION_COMMIT "N/A" CACHE STRING "Git commit string.")
 set(PROJECT_COPYRIGHT "Copyright (C) 2018 Christian Mayer <https://fox21.at>")
