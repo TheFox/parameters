@@ -1,10 +1,10 @@
-parameters (1.0.0-rc.2) stable; urgency=medium
+parameters (1.0.0-rc.2) stretch; urgency=medium
 
   * Version 1, RC2
 
  -- Christian Mayer <christian@fox21.at>  Sun, 18 Nov 2018 18:42:38 +0100
 
-parameters (1.0.0-rc.1) stable; urgency=medium
+parameters (1.0.0-rc.1) stretch; urgency=medium
 
   * Version 1, RC1
 

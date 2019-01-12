@@ -13,7 +13,7 @@ insert_final_newline = true
 [*.{cpp,hpp,h}]
 indent_size = 2
 
-[Makefile]
+[{Makefile,debian/rules}]
 indent_style = tab
 
 [Vagrantfile]
