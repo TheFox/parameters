@@ -1,6 +1,6 @@
 parameters (1.0.0-rc.5) stretch; urgency=medium
 
-  * Get current version from Git.
+  * Version 1, RC5: Get current version from Git.
 
  -- Christian Mayer <christian@fox21.at>  Fri, 18 Jan 2019 23:03:12 +0100
 

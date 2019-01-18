@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.8.0)
 
-project(Parameters VERSION 1.0.0 LANGUAGES CXX)
+project(Parameters LANGUAGES CXX)
 
-set(PROJECT_VERSION_APPENDIX "")
+set(PROJECT_VERSION_APPENDIX "-dev")
 set(PROJECT_COPYRIGHT "Copyright (C) 2018 Christian Mayer <https://fox21.at>")
 set(PROJECT_HOMEPAGE_URL "https://github.com/TheFox/parameters")
 
@@ -26,6 +26,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Term Color
 message(STATUS "Check termcolor")
 find_package(termcolor QUIET)
+message(STATUS "termcolor config: ${termcolor_CONFIG}")
 
 # Boost
 message(STATUS "Check Boost")
@@ -34,7 +35,7 @@ set(Boost_USE_STATIC_RUNTIME ON)
 set(Boost_USE_MULTITHREADED OFF)
 find_package(Boost 1.62.0 COMPONENTS filesystem program_options)
 if (Boost_FOUND)
-    message(STATUS "Found Boost")
+    message(STATUS "Found Boost: ${Boost_CONFIG}")
     message(STATUS "Boost INCL ${Boost_INCLUDE_DIRS}")
     message(STATUS "Boost LIBS ${Boost_LIBRARIES}")
 endif ()
