@@ -32,7 +32,7 @@ namespace bpo = boost::program_options;
 int main(int argc, char* const argv[], char** const envp)
 {
 #ifdef DEBUG
-  std::cerr << "--- DEBUG ---" << std::endl << std::endl;
+  std::cerr << "--- DEBUG ---" << std::endl;
 #endif
 
   // Generic options
@@ -91,11 +91,10 @@ int main(int argc, char* const argv[], char** const envp)
 
   // Help
   if (vm.count("help") || (vm.count("input") == 0 && !hasStdIn) || vm.count("regexp") == 0) {
-    std::cerr << PROJECT_NAME << ' ' << PROJECT_VERSION << std::endl;
+    std::cout << PROJECT_NAME << ' ' << PROJECT_VERSION_FULL << " (" << PROJECT_VERSION_HASH << ')' << std::endl;
     std::cerr << "Built at: " << __DATE__ << ' ' << __TIME__ << std::endl;
-    std::cerr << "Build Tag: " << PROJECT_VERSION_TAG << std::endl;
-    std::cerr << "Build Commit: " << PROJECT_VERSION_COMMIT << std::endl;
-    std::cerr << PROJECT_COPYRIGHT << std::endl << std::endl;
+    std::cerr << PROJECT_COPYRIGHT << std::endl;
+    std::cerr << PROJECT_HOMEPAGE_URL << std::endl << std::endl;
 
     std::cerr << "Usage: " << argv[0] << " [options]" << std::endl << std::endl;
     std::cerr << genericOpts << std::endl;
@@ -139,7 +138,7 @@ int main(int argc, char* const argv[], char** const envp)
   std::string content{};
 
   if (hasStdIn) {
-    std::string line;
+    std::string line{};
     while (std::getline(std::cin, line)) {
       content += line + '\n';
     }
