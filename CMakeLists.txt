@@ -98,6 +98,8 @@ if (CMAKE_BUILD_TYPE_LOWER STREQUAL "release"
 
     # Install Parameters
     install(TARGETS parameters RUNTIME DESTINATION bin)
+else ()
+    message(FATAL_ERROR "No build type selected: release, debian, debug")
 endif ()
 
 message(STATUS "CXX_STANDARD ${parameters_std}")
