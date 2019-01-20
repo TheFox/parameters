@@ -8,8 +8,8 @@ set(PROJECT_HOMEPAGE_URL "https://github.com/TheFox/parameters")
 
 # Options
 message(STATUS "Set options")
-set(PROJECT_VERSION_TAG "N/A" CACHE STRING "Git tag string.")
-set(PROJECT_VERSION_COMMIT "N/A" CACHE STRING "Git commit string.")
+set(PROJECT_VERSION_FULL "N/A" CACHE STRING "Version Full")
+set(PROJECT_VERSION_HASH "N/A" CACHE STRING "Version Hash")
 
 # Flags
 message(STATUS "Set flags")
@@ -43,10 +43,20 @@ endif ()
 # Modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
-# Git
+# Git/Version
 include(GetGitVersion)
 get_git_version(GIT_VERSION)
 get_git_hash(GIT_HASH)
+if (${PROJECT_VERSION_FULL} STREQUAL "N/A" AND GIT_VERSION)
+    set(PROJECT_VERSION_FULL "${GIT_VERSION}")
+endif ()
+string(CONCAT PROJECT_VERSION_FULL ${PROJECT_VERSION_FULL} ${PROJECT_VERSION_APPENDIX})
+if (${PROJECT_VERSION_HASH} STREQUAL "N/A" AND GIT_HASH)
+    set(PROJECT_VERSION_HASH "${GIT_HASH}")
+endif ()
+
+message(STATUS "Project Version Full: ${PROJECT_VERSION_FULL}")
+message(STATUS "Project Version Hash: ${PROJECT_VERSION_HASH}")
 
 include(CheckIncludeFileCXX)
 check_include_file_cxx("algorithm" HAVE_ALGORITHM_FILE)
