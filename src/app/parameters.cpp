@@ -27,35 +27,25 @@ namespace bpo = boost::program_options;
 #endif // __has_include
 
 #include "config.hpp"
-#include "../class/env_var.hpp"
+#include "class/env_var.hpp"
 
 int main(int argc, char* const argv[], char** const envp)
 {
-  using std::string;
-  using std::stringstream;
-  using std::cout;
-  using std::cin;
-  using std::cerr;
-  using std::endl;
-  using bpo::options_description;
-  using bpo::value;
-  using Parameters::EnvVar;
-
 #ifdef DEBUG
-  cerr << "--- DEBUG ---" << endl << endl;
+  std::cerr << "--- DEBUG ---" << std::endl;
 #endif
 
   // Generic options
-  options_description genericOpts("Options");
+  bpo::options_description genericOpts{"Options"};
   genericOpts.add_options()
-               ("input,i", value<string>()->value_name("path"), "Input path to template file. (required)")
-               ("output,o", value<string>()->value_name("path"), "Path to output file. Defaut: STDOUT")
-               ("regexp,r", value<string>()->value_name("string"),
+               ("input,i", bpo::value<std::string>()->value_name("path"), "Input path to template file. (required)")
+               ("output,o", bpo::value<std::string>()->value_name("path"), "Path to output file. Defaut: STDOUT")
+               ("regexp,r", bpo::value<std::string>()->value_name("string"),
                  "Search regular expression for environment variable names. (required)")
-               ("env,e", value<string>()->value_name("string"), "Name of the environment. For example: production")
-               ("instance,n", value<string>()->value_name("string"),
+               ("env,e", bpo::value<std::string>()->value_name("string"), "Name of the environment. For example: production")
+               ("instance,n", bpo::value<std::string>()->value_name("string"),
                  "Name of the Instance. For example: SHOPA, or SHOPB.")
-               ("char,c", value<u_char>()->value_name("char"), "Search char for template variables. Default: @")
+               ("char,c", bpo::value<u_char>()->value_name("char"), "Search char for template variables. Default: @")
                ("quiet,q", bpo::bool_switch()->default_value(false),
                  "Do not throw an error if there are variables missing being replaced.")
 #ifdef TERMCOLOR_HPP_
@@ -63,7 +53,7 @@ int main(int argc, char* const argv[], char** const envp)
 #endif
                ("help,h", "This message");
 
-  options_description opts;
+  bpo::options_description opts{};
   opts.add(genericOpts);
 
   bpo::variables_map vm{};
@@ -78,9 +68,9 @@ int main(int argc, char* const argv[], char** const envp)
   }
   catch (std::exception& e) {
 #ifdef TERMCOLOR_HPP_
-    cerr << termcolor::on_red << termcolor::white << "ERROR: " << e.what() << termcolor::reset << endl;
+    std::cerr << termcolor::on_red << termcolor::white << "ERROR: " << e.what() << termcolor::reset << std::endl;
 #else
-    cerr << "ERROR: " << e.what() << endl;
+    std::cerr << "ERROR: " << e.what() << std::endl;
 #endif
     return 2;
   }
@@ -93,35 +83,36 @@ int main(int argc, char* const argv[], char** const envp)
 
   // Debug
 #ifdef DEBUG
-  cerr << "stdin: " << (hasStdIn ? "YES" : "NO") << endl;
-  cerr << "help: " << (vm.count("help")) << endl;
-  cerr << "input: " << (vm.count("input") == 0) << endl;
-  cerr << "regex: " << (vm.count("regex") == 0) << endl;
+  std::cerr << "stdin: " << (hasStdIn ? "YES" : "NO") << std::endl;
+  std::cerr << "help: " << (vm.count("help")) << std::endl;
+  std::cerr << "input: " << (vm.count("input") == 0) << std::endl;
+  std::cerr << "regex: " << (vm.count("regex") == 0) << std::endl;
 #endif
 
   // Help
   if (vm.count("help") || (vm.count("input") == 0 && !hasStdIn) || vm.count("regexp") == 0) {
-    cerr << PROJECT_NAME << ' ' << PROJECT_VERSION << endl;
-    cerr << "Build: " << __DATE__ << ' ' << __TIME__ << endl;
-    cerr << PROJECT_COPYRIGHT << endl << endl;
+    std::cout << PROJECT_NAME << ' ' << PROJECT_VERSION_FULL << " (" << PROJECT_VERSION_HASH << ')' << std::endl;
+    std::cerr << "Built at: " << __DATE__ << ' ' << __TIME__ << std::endl;
+    std::cerr << PROJECT_COPYRIGHT << std::endl;
+    std::cerr << PROJECT_HOMEPAGE_URL << std::endl << std::endl;
 
-    cerr << "Usage: " << argv[0] << " [options]" << endl << endl;
-    cerr << genericOpts << endl;
+    std::cerr << "Usage: " << argv[0] << " [options]" << std::endl << std::endl;
+    std::cerr << genericOpts << std::endl;
 
     return 3;
   }
 
   // Debug
 #ifdef DEBUG
-  cerr << "get vm params" << endl;
+  std::cerr << "get vm params" << std::endl;
 #endif
 
-  const auto inputFilePath = vm.count("input") == 0 ? string{} : vm["input"].as<std::string>();
-  const auto outputFilePath = vm.count("output") == 0 ? string{} : vm["output"].as<std::string>();
+  const auto inputFilePath = vm.count("input") == 0 ? std::string{} : vm["input"].as<std::string>();
+  const auto outputFilePath = vm.count("output") == 0 ? std::string{} : vm["output"].as<std::string>();
   const auto searchRegexpStr = vm["regexp"].as<std::string>();
-  const auto envStr = vm.count("env") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["env"].as<std::string>());
+  const auto envStr = vm.count("env") == 0 ? std::string{} : boost::to_upper_copy<std::string>(vm["env"].as<std::string>());
   const auto instanceStr =
-    vm.count("instance") == 0 ? string{} : boost::to_upper_copy<std::string>(vm["instance"].as<std::string>());
+    vm.count("instance") == 0 ? std::string{} : boost::to_upper_copy<std::string>(vm["instance"].as<std::string>());
   const u_char searchChar = vm.count("char") == 0 ? '@' : vm["char"].as<u_char>();
   const auto isQuiet = vm.count("quiet") == 0 ? false : vm["quiet"].as<bool>();
 #ifdef TERMCOLOR_HPP_
@@ -130,24 +121,24 @@ int main(int argc, char* const argv[], char** const envp)
 
   // Debug
 #ifdef DEBUG
-  cerr << "stdin: " << (hasStdIn ? "YES" : "NO") << endl;
-  cerr << "input file: '" << inputFilePath << "'" << endl;
-  cerr << "output file: '" << outputFilePath << "'" << endl;
-  cerr << "search: '" << searchRegexpStr << "'" << endl;
-  cerr << "env: '" << envStr << "'" << endl;
-  cerr << "instance: '" << instanceStr << "'" << endl;
-  cerr << "search char: '" << static_cast<u_char>(searchChar) << "'" << endl;
-  cerr << "quiet: '" << isQuiet << "'" << endl;
+  std::cerr << "stdin: " << (hasStdIn ? "YES" : "NO") << std::endl;
+  std::cerr << "input file: '" << inputFilePath << "'" << std::endl;
+  std::cerr << "output file: '" << outputFilePath << "'" << std::endl;
+  std::cerr << "search: '" << searchRegexpStr << "'" << std::endl;
+  std::cerr << "env: '" << envStr << "'" << std::endl;
+  std::cerr << "instance: '" << instanceStr << "'" << std::endl;
+  std::cerr << "search char: '" << static_cast<u_char>(searchChar) << "'" << std::endl;
+  std::cerr << "quiet: '" << isQuiet << "'" << std::endl;
 #ifdef TERMCOLOR_HPP_
-  cerr << "no_color: '" << isNoColor << "'" << endl;
+  std::cerr << "no_color: '" << isNoColor << "'" << std::endl;
 #endif
 #endif
 
   // Content
-  string content{};
+  std::string content{};
 
   if (hasStdIn) {
-    std::string line;
+    std::string line{};
     while (std::getline(std::cin, line)) {
       content += line + '\n';
     }
@@ -155,31 +146,31 @@ int main(int argc, char* const argv[], char** const envp)
     // Open input file.
     std::ifstream ifile(inputFilePath, std::ios::binary | std::ios::ate);
     if (ifile.bad()) {
-      string errMsg{"Could not open file: " + inputFilePath};
+      const std::string errMsg{"Could not open file: " + inputFilePath};
 #ifdef TERMCOLOR_HPP_
       if (isNoColor) {
-        cerr << "ERROR: " << errMsg << endl;
+        std::cerr << "ERROR: " << errMsg << std::endl;
       } else {
-        cerr << termcolor::on_red << termcolor::white << "ERROR: "
-             << errMsg << termcolor::reset << endl;
+        std::cerr << termcolor::on_red << termcolor::white << "ERROR: "
+             << errMsg << termcolor::reset << std::endl;
       }
 #else
-      cerr << "ERROR: " << errMsg << endl;
+      std::cerr << "ERROR: " << errMsg << std::endl;
 #endif
       return 1;
     }
     auto fsize = ifile.tellg();
     if (fsize == -1) {
-      string errMsg{"Could not open file: " + inputFilePath};
+      const std::string errMsg{"Could not open file: " + inputFilePath};
 #ifdef TERMCOLOR_HPP_
       if (isNoColor) {
-        cerr << "ERROR: " << errMsg << endl;
+        std::cerr << "ERROR: " << errMsg << std::endl;
       } else {
-        cerr << termcolor::on_red << termcolor::white << "ERROR: "
-             << errMsg << termcolor::reset << endl;
+        std::cerr << termcolor::on_red << termcolor::white << "ERROR: "
+             << errMsg << termcolor::reset << std::endl;
       }
 #else
-      cerr << "ERROR: " << errMsg << endl;
+      std::cerr << "ERROR: " << errMsg << std::endl;
 #endif
       return 1;
     }
@@ -190,16 +181,16 @@ int main(int argc, char* const argv[], char** const envp)
 
     // Read input file.
     if (!ifile.read(buffer.data(), fsize)) {
-      string errMsg{"Could not read input file."};
+      const std::string errMsg{"Could not read input file."};
 #ifdef TERMCOLOR_HPP_
       if (isNoColor) {
-        cerr << "ERROR: " << errMsg << endl;
+        std::cerr << "ERROR: " << errMsg << std::endl;
       } else {
-        cerr << termcolor::on_red << termcolor::white << "ERROR: "
-             << errMsg << termcolor::reset << endl;
+        std::cerr << termcolor::on_red << termcolor::white << "ERROR: "
+             << errMsg << termcolor::reset << std::endl;
       }
 #else
-      cerr << "ERROR: " << errMsg << endl;
+      std::cerr << "ERROR: " << errMsg << std::endl;
 #endif
     }
     ifile.close();
@@ -212,20 +203,20 @@ int main(int argc, char* const argv[], char** const envp)
   const std::regex search(searchRegexpStr);
 
   // Collect env vars.
-  std::unordered_map<string, EnvVar> envMap;
+  std::unordered_map<std::string, Parameters::EnvVar> envMap{};
 
   // https://stackoverflow.com/a/2085385/823644
   for (char** env = envp; *env != nullptr; ++env) {
-    const string envs{*env};
-    auto pos = envs.find_first_of('=');
+    const std::string envs{*env};
+    const auto pos = envs.find_first_of('=');
     const auto name = envs.substr(0, pos);
     const auto val = envs.substr(pos + 1);
 
     if (std::regex_search(name, search)) {
-      envMap.emplace(std::make_pair(name, EnvVar{name, val}));
+      envMap.emplace(std::make_pair(name, Parameters::EnvVar{name, val}));
 
 #ifdef DEBUG
-      cerr << "collect val='" << name << "' val='" << val << "'" << endl;
+      std::cerr << "collect val='" << name << "' val='" << val << "'" << std::endl;
 #endif
     }
   }
@@ -234,7 +225,7 @@ int main(int argc, char* const argv[], char** const envp)
     auto env = tmpEnv.second;
     auto val = env.val;
 #ifdef DEBUG
-    cerr << "val='" << env.name << "' val='" << val << "' (" << env.ignore << ")" << endl;
+    std::cerr << "val='" << env.name << "' val='" << val << "' (" << env.ignore << ")" << std::endl;
 #endif
 
     if (env.ignore) {
@@ -247,13 +238,13 @@ int main(int argc, char* const argv[], char** const envp)
       const auto instanceSubstr = env.name.substr(pos);
 
 #ifdef DEBUG
-      cerr << " -> test instance: '" << instanceSubstr << "' (" << pos << ")" << endl;
+      std::cerr << " -> test instance: '" << instanceSubstr << "' (" << pos << ")" << std::endl;
 #endif
 
       if (instanceSubstr == instanceStr) {
         env.name = env.name.substr(0, pos - 1);
 #ifdef DEBUG
-        cerr << "   -> OK" << endl;
+        std::cerr << "   -> OK" << std::endl;
 #endif
       }
     }
@@ -263,13 +254,13 @@ int main(int argc, char* const argv[], char** const envp)
       const auto pos = env.name.length() - envStr.length();
       const auto envSubstr = env.name.substr(pos);
 #ifdef DEBUG
-      cerr << " -> test env: '" << envSubstr << "' (" << pos << ")" << endl;
+      std::cerr << " -> test env: '" << envSubstr << "' (" << pos << ")" << std::endl;
 #endif
 
       if (envSubstr == envStr) {
         env.name = env.name.substr(0, pos - 1);
 #ifdef DEBUG
-        cerr << "   -> OK" << endl;
+        std::cerr << "   -> OK" << std::endl;
 #endif
       }
     }
@@ -279,13 +270,13 @@ int main(int argc, char* const argv[], char** const envp)
 
     if (envMap.count(instanceKey)) {
 #ifdef DEBUG
-      cerr << " -> has instance key" << endl;
+      std::cerr << " -> has instance key" << std::endl;
 #endif
       envMap[instanceKey].ignore = true;
       val = envMap[instanceKey].val;
     } else if (envMap.count(envKey)) {
 #ifdef DEBUG
-      cerr << " -> has env key" << endl;
+      std::cerr << " -> has env key" << std::endl;
 #endif
       envMap[envKey].ignore = true;
       val = envMap[envKey].val;
@@ -302,20 +293,20 @@ int main(int argc, char* const argv[], char** const envp)
     }
 
 #ifdef DEBUG
-    cerr << " -> '" << env.name << "' '" << envKey << "' '" << instanceKey << "' => '" << val << "'" << endl;
+    std::cerr << " -> '" << env.name << "' '" << envKey << "' '" << instanceKey << "' => '" << val << "'" << std::endl;
 #endif
 
-    stringstream searchNameStream;
+    std::stringstream searchNameStream{};
     searchNameStream << searchChar << env.name << searchChar;
     const auto searchName = searchNameStream.str();
     boost::replace_all(content, searchName, val);
   }
 
   if (outputFilePath.empty()) {
-    cout << content;
+    std::cout << content;
   } else {
     // Save Month file.
-    std::ofstream fout(outputFilePath);
+    std::ofstream fout{outputFilePath};
     fout << content;
     fout.close();
   }
@@ -326,20 +317,20 @@ int main(int argc, char* const argv[], char** const envp)
     searchEndRegexpStr.end());
 
   // Regexp
-  stringstream endSearchStream;
+  std::stringstream endSearchStream{};
   endSearchStream << searchChar << searchEndRegexpStr;
   const std::regex endSearch(endSearchStream.str());
 
   if (!isQuiet && std::regex_search(content, endSearch)) {
 #ifdef TERMCOLOR_HPP_
     if (isNoColor) {
-      cerr << "ERROR: " << "Cannot build configuration file; Missing ENV variables." << endl;
+      std::cerr << "ERROR: " << "Cannot build configuration file; Missing ENV variables." << std::endl;
     } else {
-      cerr << termcolor::on_red << termcolor::white << "ERROR: "
-           << "Cannot build configuration file; Missing ENV variables." << termcolor::reset << endl;
+      std::cerr << termcolor::on_red << termcolor::white << "ERROR: "
+           << "Cannot build configuration file; Missing ENV variables." << termcolor::reset << std::endl;
     }
 #else
-    cerr << "ERROR: " << "Cannot build configuration file; Missing ENV variables." << endl;
+    std::cerr << "ERROR: " << "Cannot build configuration file; Missing ENV variables." << std::endl;
 #endif
     return 1;
   }

@@ -1,10 +1,28 @@
-parameters (1.0.0-rc.2) stable; urgency=medium
+parameters (1.0.0-rc.5) stretch; urgency=medium
+
+  * Version 1, RC5: Get current version from Git.
+
+ -- Christian Mayer <christian@fox21.at>  Fri, 18 Jan 2019 23:03:12 +0100
+
+parameters (1.0.0-rc.4) stretch; urgency=medium
+
+  * Version 1, RC4: Boost dependencies.
+
+ -- Christian Mayer <christian@fox21.at>  Sat, 12 Jan 2019 20:11:00 +0100
+
+parameters (1.0.0-rc.3) stretch; urgency=medium
+
+  * Version 1, RC3: Build stuff.
+
+ -- Christian Mayer <christian@fox21.at>  Sat, 12 Jan 2019 19:21:14 +0100
+
+parameters (1.0.0-rc.2) stretch; urgency=medium
 
   * Version 1, RC2
 
  -- Christian Mayer <christian@fox21.at>  Sun, 18 Nov 2018 18:42:38 +0100
 
-parameters (1.0.0-rc.1) stable; urgency=medium
+parameters (1.0.0-rc.1) stretch; urgency=medium
 
   * Version 1, RC1
 

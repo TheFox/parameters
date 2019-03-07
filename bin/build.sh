@@ -9,5 +9,7 @@ mkdir -p build_${BUILD_TYPE}
 cd build_${BUILD_TYPE}
 
 set -x
-cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} --target parameters ..
-make
+cmake \
+    -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+    ..
+make -j 4

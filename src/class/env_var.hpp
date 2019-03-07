@@ -6,7 +6,7 @@
 
 namespace Parameters
 {
-  struct EnvVar
+  struct EnvVar final
   {
     // Variables
     std::string name{};
