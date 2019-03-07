@@ -4,6 +4,13 @@ Automatic replace variables in configuration file templates from environment var
 
 The parameters program takes an input file template and a given regular expression for searching environment variables. The variables in the template file will be replaced by the values of found environment variables by the exact same name.
 
+## Project Outlines
+
+The project outlines as described in my blog post about [Open Source Software Collaboration](https://blog.fox21.at/2019/02/21/open-source-software-collaboration.html).
+
+- The main purpose of this software is to handle one template file and generate another file out of that.
+- This list is open. Feel free to request features.
+
 ## Examples
 
 ### Simple example
