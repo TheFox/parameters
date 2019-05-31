@@ -1,3 +1,9 @@
+parameters (1.0.0-rc.6) stretch; urgency=medium
+
+  * Version 1, RC6
+
+ -- Christian Mayer <christian@fox21.at>  Fri, 31 May 2019 22:14:51 +0200
+
 parameters (1.0.0-rc.5) stretch; urgency=medium
 
   * Version 1, RC5: Get current version from Git.
