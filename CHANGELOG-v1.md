@@ -1,5 +1,9 @@
 # Release Notes for Parameters v1.x
 
+## v1.0.0-rc.7
+
+- MIT License
+
 ## v1.0.0-rc.6
 
 - Same as v1.0.0-rc.5.
