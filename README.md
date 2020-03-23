@@ -172,3 +172,7 @@ $ sudo dpkg --install parameters.deb
 - macOS 10.14 Mojave
 - Debian 8 (jessie)
 - Debian 9 (stretch)
+
+## Similar projects
+
+- [Parameters written in Rust](https://github.com/TheFox/parameters-rust)
